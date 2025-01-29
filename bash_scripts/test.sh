@@ -8,5 +8,5 @@
 . /etc/profile.d/modules.sh
 module load msma-fullwave/1.0
 export PYTHONPATH=/mnt/nfs/smerino/fullwave_python:$PYTHONPATH
-srun python /mnt/nfs/smerino/fullwave_python/examples/ex_plane_wave_linear_transducer_transabdominal_imaging_animation.py
+srun python /mnt/nfs/smerino/fullwave_python/my_scripts/plane_wave.py
 
