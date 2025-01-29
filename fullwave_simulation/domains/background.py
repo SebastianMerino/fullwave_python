@@ -5,6 +5,7 @@ from fullwave_simulation.domains.domain import Domain
 
 
 class Background(Domain):
+    """ Sets up background properties """
     def __init__(
         self,
         num_x: int,

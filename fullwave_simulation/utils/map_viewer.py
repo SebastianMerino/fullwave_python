@@ -5,6 +5,7 @@ import numpy as np
 
 
 class MapViewer:
+    """ Handles visualization of figures of any material property """
     def __init__(self, save_dir="test"):
         self._save_dir = Path(save_dir)
         self._save_dir.mkdir(parents=True, exist_ok=True)

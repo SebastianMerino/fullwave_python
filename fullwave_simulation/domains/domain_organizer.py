@@ -7,6 +7,11 @@ from fullwave_simulation.domains.domain import Domain
 
 
 class DomainOrganizer:
+    """ 
+    Combines domains (image properties) like an image stacker,
+    depending on the map geometry
+    The first map should be background map
+    """
     def __init__(
         self,
         material_properties,
@@ -42,9 +47,10 @@ class DomainOrganizer:
             }
 
     def construct_domain(self):
-        # construct maps from registered maps. combine the maps like an image stecker.
-        # The first map is the background map.
-        # Replace with the number that came later but do not replace the later number with a zero.
+        """ 
+        Constructs maps from registered maps.
+        Replaces properties with the number that came later, except if it's a zero.
+        """
         var_name_dict = {
             "rho_map": "rho0",
             "beta_map": "beta",

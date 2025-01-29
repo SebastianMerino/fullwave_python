@@ -9,7 +9,7 @@ from fullwave_simulation.domains import (
     AbdominalWall,
     Background,
     DomainOrganizer,
-    PhatomLateral,
+    PhantomLateral,
     Scatterer,
 )
 from fullwave_simulation.solvers import FullwaveSolver
@@ -24,6 +24,9 @@ from fullwave_simulation.utils import MapViewer
 
 
 class SimulationParams(Constant):
+    """ 
+    Class that handles simulation parameters as constants
+    """
     # dummy parameter for a plane wave imaging
     focal_depth = 3e-2
     # actual spacing of L12-5 50mm = 0.1953e-4 [m]
@@ -87,10 +90,19 @@ class SimulationParams(Constant):
 
 
 class MaterialProperties(Constant):
+    """
+    Class that handles material properties as constants.
+        bovera: B/A or nonlinearity coeff.
+        beta:   1 + (B/A)/2
+        alpha:  Attenuation coeff. [dB/cm/MHz^gamma]
+        ppower: Attenuation power law or gamma
+        c0:     Sound speed [m/s]
+        rho0:   Density
+    """
     fat = {"bovera": 9.6, "alpha": 0.48, "ppower": 1.1, "c0": 1478, "rho0": 950}
     fat["beta"] = 1 + fat["bovera"] / 2
 
-    liver = {"bovera": 7.6, "alpha": 0.5, "ppower": 1.1, "c0": 1570, "rho0": 1064}
+    liver = {"bovera": 7.6, "alpha": 0.5, "ppower": 1.0, "c0": 1570, "rho0": 1064}
     liver["beta"] = 1 + liver["bovera"] / 2
 
     muscle = {"bovera": 9, "alpha": 1.09, "ppower": 1.0, "c0": 1547, "rho0": 1050}
@@ -124,6 +136,7 @@ class MaterialProperties(Constant):
 
 
 class LinearTransmitterMapMod(LinearTransmitterMap):
+    """ Modified the input layer number """
     def _calculate_inmap(self) -> np.ndarray:
         in_map = np.zeros((self.num_x, self.num_y))
         in_map[:, 0:8] = 1  # changed the input layer num
@@ -131,6 +144,7 @@ class LinearTransmitterMapMod(LinearTransmitterMap):
 
 
 class L125TransducerMod(L125Transducer):
+    """ Modified the input layer number in transmitter """
     def _make_transducer_surface_map(self, nX, nY):
         transmitter_map = LinearTransmitterMapMod(
             num_x=nX,
@@ -211,9 +225,9 @@ def main():
         simulation_params=simulation_params,
         transducer=l125_transducer,
     )
-    csr = 0.035
-    background.rho_map = background.rho_map - scatterer.rho_map * csr
-    phantom = PhatomLateral(
+    csr = 0.035     # 3.5% variation in density
+    background.rho_map = background.rho_map - scatterer.rho_map * csr # adds scatterers to background
+    phantom = PhantomLateral(
         num_x=abdominal_wall.geometry.shape[0],
         num_y=l125_transducer.num_y,
         material_properties=material_properties,

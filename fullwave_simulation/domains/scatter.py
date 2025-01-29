@@ -6,6 +6,7 @@ from fullwave_simulation.utils.utils import seed_everything
 
 
 class Scatterer(Domain):
+    """ Domain that contains variations in tissue properties due to random scatterers """
     def __init__(
         self,
         num_x: int,
@@ -60,14 +61,16 @@ class Scatterer(Domain):
         dY,
         num_scat,
     ):
+        """ Map in which non-scatterers are set to 0 and scatterers are set to a 
+        uniform random value from -1 to 1 """
         res_cell = self._rescell2ds(lambda_, num_y / 2 * dY, wY, ncycles, dX, dY)
         scat_density = num_scat / res_cell
 
         seed_everything(self.seed)
         scatter_map = np.random.rand(num_y, num_x).T
         scatter_map = scatter_map / scat_density
-        scatter_map[scatter_map > 1] = 0.5
-        scatter_map = scatter_map - 0.5
+        scatter_map[scatter_map > 1] = 0.5      # All non-scatterers set to 0.5
+        scatter_map = scatter_map - 0.5         # All scatterers set to rand, rest to 0
 
         scat_count = len(scatter_map != 0)
         scat_percent = 100 * scat_count / (scatter_map.shape[0] * scatter_map.shape[0])
@@ -83,6 +86,7 @@ class Scatterer(Domain):
         dY,
         dZ,
     ):
+        """ Returns resolution in samples^2 """    
         res_y = lambda_ * dy / ay
         res_z = lambda_ * n_cycles / 2
         res_cell = res_y / dY * res_z / dZ

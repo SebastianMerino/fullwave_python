@@ -10,6 +10,7 @@ from fullwave_simulation.utils import utils
 
 
 class AbdominalWall(Domain):
+    """ Generates density, speed of sound, attenuation and nonlinearity maps """
     def __init__(
         self,
         num_x: int,
@@ -60,6 +61,7 @@ class AbdominalWall(Domain):
         self.rho_map, self.c_map, self.a_map, self.beta_map = self._setup_maps()
 
     def _setup_geometry(self):
+        """ Loads file with abdominal wall geometry and applies compression / deformation """
         mat_data = scipy.io.loadmat(self.abdominal_wall_mat_path)
         abdominal_wall_properties = mat_data["cut"].T.astype(float)
         # this is the pixel size in interpd Visual Human slice.
@@ -126,6 +128,7 @@ class AbdominalWall(Domain):
         return geometry
 
     def _setup_maps(self):
+        """ Assigns tissue properties to the geometry """
         rho_map = np.ones_like(self.geometry) * self.material_properties.water["rho0"]
         c_map = np.ones_like(self.geometry) * self.material_properties.water["c0"]
         a_map = np.ones_like(self.geometry) * self.material_properties.water["alpha"]

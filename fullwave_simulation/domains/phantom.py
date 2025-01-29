@@ -7,6 +7,7 @@ from fullwave_simulation.utils.utils import matlab_round
 
 
 class Phantom(Domain):
+    """ Creates domain with 8 anechoic cysts """
     def __init__(
         self,
         num_x: int,
@@ -159,7 +160,8 @@ class Phantom(Domain):
         return geometry
 
 
-class PhatomLateral(Phantom):
+class PhantomLateral(Phantom):
+    """ Overwrite phantom class to create domain with 3 anechoic cysts """
     def _setup_geometry(
         self,
     ):

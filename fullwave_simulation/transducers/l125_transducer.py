@@ -9,6 +9,7 @@ from fullwave_simulation.utils import utils
 
 
 class L125Transducer(Transducer):
+    """ Handles transmitter and receiver maps """
     def __init__(
         self,
         simulation_params: Constant,

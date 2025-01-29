@@ -4,6 +4,9 @@ from fullwave_simulation.constants import Constant
 
 
 class Domain:
+    """
+    Abstraction that contains information about material properties and simulation parameters
+    """
     def __init__(
         self,
         num_x: int,

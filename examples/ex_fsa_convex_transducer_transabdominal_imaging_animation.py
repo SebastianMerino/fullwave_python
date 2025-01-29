@@ -9,7 +9,7 @@ from fullwave_simulation.domains import (
     AbdominalWall,
     Background,
     DomainOrganizer,
-    PhatomLateral,
+    PhantomLateral,
     Scatterer,
     WaterGel,
 )
@@ -254,7 +254,7 @@ def main():
     csr = 0.035
     background.rho_map = background.rho_map - scatterer.rho_map * csr
 
-    phantom = PhatomLateral(
+    phantom = PhantomLateral(
         num_x=c52v_transducer.num_x,
         num_y=c52v_transducer.num_y,
         material_properties=material_properties,

@@ -6,6 +6,7 @@ from fullwave_simulation.utils import utils
 
 
 class LinearReceiverMap(Domain):
+    """ Handles the transducer surface and the mask of the points in which the receiver is"""
     def __init__(
         self,
         num_x,
@@ -41,7 +42,7 @@ class LinearReceiverMap(Domain):
         ) = self._calc_property_maps()
 
     def _make_transducer_surface_label(self, num_x, inmap, ppw):
-        # Make a vector that indicates where the transducer surface is.
+        """ Make a vector that indicates where the transducer surface is """
         surface = np.zeros(num_x)
         for i in range(num_x):
             # find where the transducer surface is
